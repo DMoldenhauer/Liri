@@ -57,28 +57,33 @@
 
 
 //Coding liri.js
-//take in arguments from the command line
-// if statements to determine which function to call
-//to display output
-//functions needed
-//call api for tweets
-//call api for songs
+        //take in arguments from the command line
+        // if statements to determine which function to call
+        //to display output
+
+        //functions needed
+                //call api & display tweets
+                        //loads Twitter module
+                        // creates variable with keys and secrets from .env file
+                        // creates object
+                        //twitter function call and handle response    
+                //call api & display songs
+                        //loads Spotify module
+                        //creates new object to access id and secret
+                        //calls spotify function and handles response
+                //call api & display movies
+                        //parse string from server into an object
+                        //use text from random.txt file
+                //loads fs module
+                        //reads the random.txt file and handles data
 
 
+//MAIN PROCESS
+//---------------------------------------------------------------------------
 
-
-//Code to read and set any environment variables within dotenv package
-
+//Read and set any environment variables within dotenv package
 
 require("dotenv").config();
-
-// code to import the keys.js file and store it in a variable
-
-// Access keys information
-// var keys=" ";
-
-
-
 
 //takes in arguements from command line
 var nodeArg = process.argv;
@@ -87,7 +92,7 @@ var nodeArg = process.argv;
 //respond to input from user of: node liri.js my-tweets
 if ((nodeArg[2]) == ('my-tweets')) {
         //show last 20 tweets in command window
-        console.log('my-tweets was input');
+        // console.log('my-tweets was input');
         displayTweets();
         debugger;
 }
@@ -95,7 +100,7 @@ if ((nodeArg[2]) == ('my-tweets')) {
 //respond to input from user of: node liri.js spotify-this-song '<song name here>'
 if (((nodeArg[2]) == ("spotify-this-song")) && ((nodeArg[3]) != (null))) {
         nodeArgSong = nodeArg[3];
-        console.log("spotify-this-song", "'" + nodeArgSong + "' is valid song input");
+        // console.log("spotify-this-song", "'" + nodeArgSong + "' is valid song input");
         displaySongInfo(nodeArgSong);
         debugger;
 }
@@ -112,7 +117,7 @@ if (((nodeArg[2]) == ("spotify-this-song")) && ((nodeArg[3]) == (null))) {
 //respond to input of:  node liri.js movie-this '<movie name here>'
 if (((nodeArg[2]) == ('movie-this')) && ((nodeArg[3]) != (null))) {
         var movieTitle = (nodeArg[3]);
-        console.log(movieTitle + " is a valid movie input");
+        // console.log(movieTitle + " is a valid movie input");
         displayMovieInfo(movieTitle);
 
 }
@@ -127,7 +132,7 @@ if (((nodeArg[2]) == ('movie-this')) && ((nodeArg[3]) == (null))) {
 
 //respond to input of:  node liri.js do-what-it-says 
 if (nodeArg[2] == ('do-what-it-says')) {
-        console.log("valid input of do-what-it-says");
+        // console.log("valid input of do-what-it-says");
         displayTextFromRandomTxtFile();
 }
 
@@ -143,7 +148,7 @@ function displayTweets() {
         });
         // creates object
         var params = { screen_name: 'DevDon17' };
-
+        //twitter function call and handle response
         client.get('statuses/user_timeline', params, function (error, tweets, response) {
                 if (!error) {
                         for (i = 0; i < 20; i++) {
@@ -156,39 +161,31 @@ function displayTweets() {
 };
 
 function displaySongInfo() {
-
+        //loads Spotify module
         var Spotify = require('node-spotify-api');
-
-        // var spotify = new spotify(keys.spotify);
-
+        //creates new object to access id and secret
         var spotify = new Spotify({
                 id: process.env.SPOTIFY_ID,
                 secret: process.env.SPOTIFY_SECRET
         });
-
+        //calls spotify function and handles response
         spotify.search({ type: 'track', query: nodeArgSong }, function (err, data) {
                 if (err) {
                         console.log('Error occurred: ' + err);
                 }
-
+                //Testing:
                 // console.log (data.tracks.items[1].name + ' by '+ data.tracks.items[1].artists[0].name + ' on the album: ' + '"' + data.tracks.items[1].album.name + '".  Preview at:  '+ data.tracks.items[1].preview_url + '\n');
-
                 // console.log (data.tracks.items[3].name);
                 // console.log (data.tracks.items[1].artists.name)
                 // console.log (data.tracks.items);
                 // console.log (data.tracks.items[1].artists[0].name);
-                
                 // console.log (data.tracks.items[0].album.name);
-               
 
-                
-                if (nodeArgSong == "The Sign") 
-                {
+                if (nodeArgSong == "The Sign") {
                         console.log('Song:  ' + data.tracks.items[5].name + '\r');
                         console.log('Artist(s):  ' + data.tracks.items[5].artists[0].name + '\r');
                         console.log('Album:  ' + data.tracks.items[5].album.name + '\r');
-                        if ((data.tracks.items[5].preview_url) == (null)) 
-                        {
+                        if ((data.tracks.items[5].preview_url) == (null)) {
                                 console.log('Preview URL is not available' + '\n');
                         }
                         else console.log('Preview at:  ' + data.tracks.items[5].preview_url + '\n');
@@ -207,24 +204,15 @@ function displaySongInfo() {
                                 else console.log('Preview at:  ' + data.tracks.items[i].preview_url + '\n');
                         }
                 }
-                //   console.log(JSON.stringify(response, null, 2));
                 debugger;
         })
-        // .catch(function(err) {
-        //   console.log(err);
 };
 
 
-//show the following information about the song:
-//Artist(s)
-//The song's name
-//A preview link of the song from Spotify
-//The album that the song is from
-
-
 function displayMovieInfo() {
+        //loads request module
         var request = require('request');
-
+        //calls api and handles response
         request('http://www.omdbapi.com/?apikey=trilogy&t=' + movieTitle, function (error, response, body) {
 
                 //parse string from server into an object
@@ -243,9 +231,9 @@ function displayMovieInfo() {
 }
 
 function displayTextFromRandomTxtFile() {
-
+        //loads fs module
         var fs = require("fs");
-
+        //reads the random.txt file and handles data
         fs.readFile("random.txt", "utf8", function (error, data) {
                 // If the code experiences any errors it will log the error to the console.
                 if (error) {
@@ -264,26 +252,10 @@ function displayTextFromRandomTxtFile() {
                 if ((action) == ("spotify-this-song")) {
                         // console.log (value);
                         // value = nodeArgSong;
-                        console.log (nodeArgSong);
+                        // console.log (nodeArgSong);
                         displaySongInfo(nodeArgSong);
                 }
 
-
-                // We will then re-display the content as an array for later use.
-                // console.log('node liri.js ' + dataArr[0] + ' ' + dataArr[1] + '\r');
-                
-              
-                // var cmd = require('node-cmd');
-
-                // var nodeLineCommand = ('node liri.js ' + dataArr[0] + ' ' + dataArr[1]);
-
-
-                // cmd.run(nodeLineCommand);
         });
-        //utilize fs Node package
-        //take text from random.txt and use it to call one of Liri's commands
-        //it should run spotify-this-song for "I Want it That Way" as 
-        //follows the text in random.txt
-}
 
-
+};
