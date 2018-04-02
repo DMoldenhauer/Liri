@@ -1,0 +1,29 @@
+{
+  "name": "liri",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DMoldenhauer/Liri.git"
+  },
+  "author": "Don Moldenhauer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DMoldenhauer/Liri/issues"
+  },
+  "homepage": "https://github.com/DMoldenhauer/Liri#readme",
+  "dependencies": {
+    "dotenv": "^5.0.1",
+    "node": "^9.10.1",
+    "node-cmd": "^3.0.0",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.85.0",
+    "twitter": "^1.7.1"
+  },
+  "devDependencies": {},
+  "keywords": []
+}
